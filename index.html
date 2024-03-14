@@ -3,30 +3,531 @@
     2. Right click html file and either run in default browser or another browser
   -->
 
+  <!-- TODO:
+  1. make images side by side
+  2. menu bar on a page that is infinitely scrollable -->
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HTML/CSS Studio</title>
-    <!-- import CSS styles -->
-    <link rel="stylesheet" href="styles.css" /> 
-  </head>
 
-  <!-- page content goes into <body> -->
-  <body>
-    <div id="logoBar">
-      <h1>Welcome to 100 Acre Wood!</h1>
-      <img id="siteLogo" alt="Pooh-bear site logo" src="./assets/Header.png"/>
-      <h3>We're glad you're here :D</h3>
-    </div>
-    <hr/>
-    <div id="staffGallery">
-      <img class="galleryImage" src="./assets/Eeyore-Eh.png"/>
-      <img class="galleryImage" src="./assets/Eeyore-Zz.png"/>
-      <img class="galleryImage" src="./assets/Kanga-Roo.png"/>
-      <img class="galleryImage" src="./assets/Owl-Phone.png"/>
-    </div>
-  </body>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>CS 1300 AB Testing</title>
+      <!-- import CSS styles -->
+      <link rel="stylesheet" href="styles.css" /> 
+    </head>
+  
+    <!-- page content goes into <body> -->
+      
+    <body>
+      <div class="topnav">
+        <a class="active" href="#about">About</a>
+        <a href="#background">Background</a>
+        <a href="#hypotheses">Hypotheses</a>
+        <a href="#data_collection">Data Collection</a>
+        <a href="#stat_tests">Statistical Tests</a>
+        <a href="#summary">Summary Statistics</a>
+        <a href="#conclusion">Conclusion</a>
+      </div>
 
-</html>
+      <div id = "about">
+        <h1>AB Testing</h1>
+        <h3>Utilizing AB testing to increase usability for a 
+          website where users can book medical appointments.</h2>
+      </div>
+
+      <br>
+      
+      <div id = "background">
+        <h2>Background</h2>
+        <p>
+          The interface we are trying to improve is MEDx, a 
+          medical interface where users schedule a variety of
+          doctor appointments, view test results, medical records,
+          and more.
+        </p>
+        <p>
+          After trying to schedule an appointment with 
+          Dr. Adam Ng for April 23 at Morristown Medical Center,
+          I noticed the following pain points:
+          <ul>
+            <li>
+              Buttons had low contrast between button color and text
+              <ul>
+                <li>The button colors made the button look disabled</li>
+              </ul>
+            </li>
+            <li>
+              Buttons don't visually change when mouse hovers over it,
+              so it is unclear if they can be clicked
+            </li>
+            <li>
+              Too much distance between appointment slot and button to
+              select the appointment, making it difficult to 
+              see which button corresponds to which appointment
+            </li>
+            <li>
+              Appointments are not listed in any obvious 
+              chronological order or any obvious alphabetical 
+              order
+            </li>
+            <li>
+              Each appointment slot has the type of appointment bolded
+              rather than the specific doctor and location (which the
+              user needs to select their appointment)
+            </li>
+          </ul>
+        </p>
+
+        <p>
+          The original website (version A):
+        </p>
+        <img class="pic" src="./assets/original_website.png" 
+        alt="the appearance of the original website (version A)"/>
+        
+        <p>
+          Once I noticed the above pain points, creating a version B
+          of the website, I made the following changes to version A: 
+          <ul>
+            <li>
+              Increased color contrast between button background color
+              and button text color, so buttons appeared clickable
+            </li>
+            <li>
+              When mouse hovers over button, the buttons change
+              colors to indicate that they can be clicked
+            </li>
+            <li>
+              Decreaesd the distance between appointment slot and 
+              the button to select the appointment, making it 
+              easier for the user to see which button 
+              to press to book an appointment
+            </li>
+            <li>
+              Appointments are listed in chronological order of appointment
+              date (from closest date to farthest date)
+              <ul>
+                <li>Header of page now specifics how appointments are sorted</li>
+              </ul>
+            </li>
+            <li>
+              Each appointment slot has the doctor's name bolded with 
+              the location listed next (making it easier for the 
+              user to select the correct appointment)
+            </li>
+          </ul>
+        </p>
+
+        <p>The modified website (version B):</p>
+        <img class="pic" src="./assets/changed_website.png" 
+        alt="the appearance of the modified website (version B)"/>
+        
+      </div>
+
+      <br>
+
+      <div id = "hypotheses">
+        <h2>Hypotheses</h2>
+        <p>
+          Reflecting on the changes made to version A, I considered 
+          how the changes would affect misclick rate, time on page, 
+          and number of clicks.
+          The 3 metrics are defined as following:
+          <ol>
+            <li><u>Misclick rate</u> = the frequency with which users
+              click something else on the page before finding
+              the correct button for the task
+            </li>
+            <li><u>Time on page</u> = time spent on the webpage for 
+              each user group
+            </li>
+            <li><u>Number of clicks</u> = the number of times the 
+              user clicked on the screen</li>
+          </ol>
+          With these 3 metrics in mind, I created a null and 
+          alternative hypothesis for each. 
+        </p>
+
+        <br>
+        
+        <h3>Null Hypotheses</h3>
+        <ol>
+          <li>
+            <u>Misclick rate:</u>  Version A of the website has 
+            the same misclick rate as Version B of the website.
+            <ul>
+              <li>
+                I predict that I will end up rejecting this null 
+                hypothesis because Version B's buttons indicate they 
+                can be clicked so that users will click around exploring
+                the webpage less, reducing misclick rate.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <u>Time on page:</u> A user's time on page is the same for 
+            Version A of the website as it is for Version B. 
+            <ul>
+              <li>
+                I predict that I will end up rejecting this null 
+                hypothesis because Version B has clearer buttons &
+                orders appointments by what the user needs to choose
+                an appointment slot (date, doctor name, location), 
+                allowing user to complete the task faster and decrease 
+                their time on the page. 
+              </li>
+            </ul>
+          </li>
+          <li>
+            <u>Number of clicks:</u> The number of clicks produced
+            on Version A of the website is the same as the 
+            number of clicks produced on Version B.
+            <ul>
+              <li>
+                I predict that I will end up rejecting this null 
+                hypothesis because Version B's buttons change colors once 
+                hovered over and the doctor's appointments are ordered 
+                according to how the user chooses it, so that users will not 
+                click around exploring the webpage as much, reducing the 
+                total number of clicks compared to those from Version A.
+              </li>
+            </ul>
+          </li>
+        </ol>
+
+        <br> 
+
+        <h3>Alternative Hypotheses</h3>
+        <ol>
+          <li>
+            <u>Misclick rate:</u>  Version A of the website will 
+            have a higher misclick rate compared to Version B of the website.
+            <ul>
+              <li>
+                I hypothesize this because Version B's buttons indicate they 
+                can be clicked so users will click around exploring
+                the webpage less, reducing misclick rate for Version B.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <u>Time on page:</u> A user's time on page will be greater for
+            Version A of the website than Version B. 
+            <ul>
+              <li>
+                I hypothesize this because Version B has clearer buttons &
+                orders appointments by what the user needs to choose
+                an appointment slot (date, doctor name, location), 
+                allowing user to complete the task faster and decrease 
+                their time on Version B compared to Version A.  
+              </li>
+            </ul>
+          </li>
+          <li>
+            <u>Number of clicks:</u> The number of clicks produced
+            on Version A of the website will be greater than the  
+            number of clicks produced on Version B.
+            <ul>
+              <li>
+                I hypothesize this because Version B's buttons change colors once 
+                hovered over and the doctor's appointments are ordered 
+                according to how the user chooses it, so that users will not 
+                click around exploring the webpage as much, reducing the 
+                total number of clicks compared to those from Version A.
+              </li>
+            </ul>
+          </li>
+        </ol>
+
+      </div>
+
+      <br>
+
+      <div id = "data_collection">
+        <h2>Data Collection</h2>
+
+        <p>In order to collect data on the 3 metrics we are interested in 
+          (misclick rate, time on page, and number of clicks), 
+          we had each user first try to accomplish the task of booking
+          an appointment with Dr. Adam Ng on April 23 at the Morristown
+          location on version A of the website. 
+          <br>
+          Before the user started the task, they had never seen the website
+          before. To start the task the user was brought to a neutral page
+          and clicked a button to start timing and tracking their activity. 
+          After clicking the button to start the task, they were brought to 
+          the website (version A) where they tried to complete the task described 
+          above. Once they had successfully booked the appointment, the website
+          took them back to the neutral page and stopped recording their activity. 
+        </p>
+        <p>Next, after version A was modified and version B was created, the same sample
+          of users rotated among 21 laptops to try different version B websites. 
+          The same protocol of starting and ending at a neutral page described above was employed.
+          <br> 
+          This potentially introduced bias since the same users were used to test version B.
+          These users had seen version A before, which is extremely similar to version B.
+          
+          In addition, users became even more
+          familiar with the website after trying 21 very similar version Bs.
+          So, it is possible a user may have fewer misclicks and less time on page 
+          due to the increased familiarity and not necessarily because of version B entirely.
+          However, for the purposes of this we will assume the bias created from this is negligible. 
+        </p>
+
+        <p>The following is data collected from Version <b>A</b> of the website:</p>
+        <img class="pic" src="./assets/version_a_data.png" 
+        alt="the data collected from version A of the website"/>
+
+        <p>The following is data collected from Version <b>B</b> of the website:</p>
+        <img class="pic" src="./assets/version_a_data.png" 
+        alt="the data collected from version A of the website"/>
+        
+      </div>
+      
+      <br>
+
+      <div id = "stat_tests">
+        <h2>Statistical Tests on Data</h2>
+
+        <p>After data collection, we ran statistical tests for each metric (misclick rate, 
+          time on page, and number of clicks)
+          on the data to determine 
+          if the difference between versions A and B is statistically significant.
+        </p>
+        <p>The findings are described below:</p>
+        <p>
+          <ul>
+            <li>
+              Misclick rate:
+              <ul>
+                <li>
+                  I decided to run a chi squared test because the misclick
+                  rate is categorical (a boolean true for misclick and false for not misclicking).
+                </li>
+                <li>
+                  The difference between Version A's misclick rate and Version B's 
+                  misclick rate is not statistically significant. 
+                </li>
+                <br>
+                <li>
+                  From the test, we have found the following values:
+                  <ul>
+                    <li>
+                      df = 1
+                      <ul>
+                        <li>This value represents the number of independent values being estimated 
+                          from the sample group of users and is adjusted since
+                          the sample variances are not equal.</li>
+                      </ul>
+                    </li>
+                    <li>
+                      chi^2 = 1.272
+                      <ul>
+                        This value represents the size of the discrepancy between 
+                        the expected and actual results.
+                      </ul>
+                    </li>
+                    <li>
+                      p-value = 0.259
+                      <ul>
+                        <li>This value measures 
+                          how likely it is that any observed difference 
+                          between the samples is due to chance.</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  We fail to reject the null hypothesis since p > 0.05.
+                </li>
+              </ul>
+            </li>
+            <br>
+            <li>
+              Time on Page:
+              <ul>
+                <li>
+                  I decided to run a one-tailed t-test because time is continuous,
+                  version A is the baseline that we are comparing version B's 
+                  time on page to, and the alternative hypothesis specifically predicts that version 
+                  B's time on page will be lower than version A's.
+                </li> 
+                <li>
+                  The difference between Version A's time on page and Version B's 
+                  time on page is statistically significant. 
+                </li>
+                <br>
+                <li>
+                  From the test, we have found the following values:
+                  <ul>
+                    <li>
+                      Avg(A) = 24398.286 
+                      <ul>
+                        <li>
+                          This is the average total time (in milliseconds) 
+                          that the users spent on version A before completing the task.
+                        </li>
+                      </ul> 
+                    </li>
+                    <li>
+                      Variance(A) = 206407623.014 
+                      <ul>
+                        This is the average squared distances of users' total times
+                        from the mean total time on version A.
+                      </ul>
+                    </li>
+
+                    <li>
+                      Avg(B) = 10054.381 
+                      <ul>
+                        <li>This is the average total time (in milliseconds) 
+                          that the users spent on version B before completing the task.</li>
+                      </ul>
+                    </li>
+
+                    <li>
+                      Variance(B) = 19398123.348 
+                      <ul>
+                        <li>This is the average squared distances of user's total times
+                          from the mean total time on version B.</li>
+                      </ul>
+                    </li>
+
+                    <li>
+                      Degrees of Freedom = 23.726
+                      <ul>
+                        <li>This value represents the 21 values being estimated since
+                          the sample group of users was 21 and is adjusted since
+                          the sample variances are not equal.  </li>
+                      </ul>
+                    </li>
+                    <li>
+                      T-score = 4.374
+                      <ul>
+                        This value represents the difference between the data of the 
+                        two samples, which corresponds to a shaded area under the T-distribution curve
+                        (essentially acting as a probability).
+                      </ul>
+                    </li>
+                    <li>
+                      P-value(A &lt; B ) = 0.9999
+                      <ul>
+                        This value measures 
+                        how likely it is that 
+                        the relationship, the time on verion B > the time on version A,  
+                        is due to chance.
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  We find statistically significant evidence that the 
+                  alternative hypothesis is true since 0.05 > 1-0.9999.
+                </li>
+              </ul>
+            </li>
+            <br>
+            <li>
+              Number of Clicks:
+              <ul>
+                <li>
+                  I decided to run a one-tailed t-test because 
+                  version A is the baseline that we are comparing version B's 
+                  metric to, the alternative hypothesis specifically predicts that version 
+                  B's number of clicks will be lower than version A's, and because 
+                  here I decided to treat number of clicks as continuous data.
+                </li> 
+                <li>
+                  The difference between Version A's number of clicks and Version B's 
+                  number of clicks is statistically significant. 
+                </li>
+                <br>
+                <li>
+                  From the test, we have found the following values:
+                  <ul>
+                    <li>
+                      Avg(A) = 5
+                      <ul>
+                        <li>This is the average number of clicks users produced on version A before completing the task.</li>
+                      </ul>
+                    </li>
+                    <li>
+                      Variance(A) = 28.9
+                      <ul>
+                        <li>This is the average squared distances of users' number of clicks from the mean total clicks on version A.</li>
+                      </ul>
+                    </li>
+                    <li>
+                      Avg(B) = 2.667
+                      <ul>
+                        <li>This is the average number of clicks that users produced on version B before completing the task.</li>
+                      </ul>
+                    </li>
+                    <li>
+                      Variance(B) = 2.13
+                      <ul>
+                        <li>This is the average squared distances of user's number of clicks from the mean number of clicks on version B.</li>
+                      </ul>
+                    </li>
+                    <li>
+                      Degrees of Freedom = 22.9377
+                      <ul>
+                        <li>This value represents the 21 values being estimated since the sample group of users was 21 and is adjusted since the sample variances are not equal.</li>
+                      </ul>
+                    </li>
+                    <li>
+                      T-score = 1.919
+                      <ul>
+                        <li>This value represents the difference between the data of the two samples, which corresponds to a shaded area under the T-distribution curve (essentially acting as a probability).</li>
+                      </ul>
+                    </li>
+                    <li>
+                      P-value(A &lt; B ) = 0.966
+                      <ul>
+                        <li>This value measures how likely it is that the relationship, the number of clicks on verion B > the number of clicks on version A, is due to chance.</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  We find statistically significant evidence that the 
+                  alternative hypothesis is true since 0.05 > 1  - 0.966.
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </p>
+        
+      </div>
+
+      <br>
+
+      <div id = "summary">
+        <h2>Summary Statistics</h2>
+        <p>
+          Overall, from 21 data points, it was found that version B did not affect
+          the misclick rate, while version B decreased the time on page and 
+          total number of clicks. 
+        </p>
+        <p>
+          Focusing on the misclick rate, we found that version A had a misclick rate of 
+          0.288 while version B had a misclick rate of 0.143. Although version B's misclick rate 
+          is lower, we know from our chi-squared test that this is not a statistically
+          significant enough difference to conclude version B affected this metric.
+          This could potentially be due to the fact that a data point from version B 
+          was null (no clicks and user did not complete the task). 
+        </p>
+        <p>
+          Now, considering the user's time on the page, 
+        </p>
+      </div>
+
+      <div id = "conclusion">
+        <h2>Conclusion</h2>
+        <p>
+
+        </p>
+      </div>
+
+    </body>
+  </html>
